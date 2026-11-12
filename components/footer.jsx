@@ -1,53 +1,51 @@
-import React from "react";
 import Link from "next/link";
-
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer className="p-6 md:px-10 md:py-10 bg-gray-950 text-gray-400">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <Link
-              href="/home"
-              className="text-xl md:text-2xl font-bold tracking-tight text-white hover:text-blue-400 transition-colors"
+    <footer className="site-footer">
+      <div className="footer-top">
+        <div>
+          <Link href="/" className="footer-name">
+            Bhavesh Gupta
+          </Link>
+          <p>Ph.D. Scholar · Prime Minister Research Fellow</p>
+          <p>PMRF ID: 2502421</p>
+        </div>
+        <div className="footer-affiliation">
+          <a
+            href="https://quantum.iitm.ac.in"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            CQuICC — Center for Quantum Information,
+            <br />
+            Communication and Computing
+          </a>
+          <p>
+            <a
+              href="https://physics.iitm.ac.in"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Bhavesh Gupta
-            </Link>
-            <p className="text-xs text-gray-500 mt-1">
-              Ph.D. Scholar | Prime Minister Research Fellow | IIT Madras
-            </p>
-          </div>
-          <ul className="flex flex-wrap items-center gap-6 text-sm">
-            <li>
-              <Link href="/home" className="hover:text-white transition-colors">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="hover:text-white transition-colors">
-                About
-              </Link>
-            </li>
-            <li>
-              <Link href="/research" className="hover:text-white transition-colors">
-                Research
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="hover:text-white transition-colors">
-                Contact
-              </Link>
-            </li>
-          </ul>
+              Department of Physics
+            </a>{" "}
+            ·{" "}
+            <a
+              href="https://www.iitm.ac.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              IIT Madras
+            </a>
+          </p>
         </div>
-        <hr className="my-6 border-gray-800" />
-        <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-2">
-          <span>&copy; {new Date().getFullYear()} Bhavesh Gupta. All rights reserved.</span>
-          <span>Indian Institute of Technology Madras, Chennai, India</span>
-        </div>
+      </div>
+      <div className="footer-bottom">
+        <span>
+          © {new Date().getFullYear()} Bhavesh Gupta. All rights reserved.
+        </span>
+        <span>Indian Institute of Technology Madras, Chennai, India</span>
+        <a href="#main-content">Back to top ↑</a>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

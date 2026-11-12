@@ -1,100 +1,56 @@
-import React, { useState } from "react";
-import Head from "next/head";
-import Navbar from "../components/navbar";
+import Layout, { PageHeading } from "../components/Layout";
+import Publication from "../components/Publication";
 import ImageLoader from "../components/imageLoader";
-import fs from 'fs'
-
-import Footer from "../components/footer";
-
-const Publications = (props) => {
-  const data = props.workProgessData;
+import papers from "../data/publication/published_article.json";
+import work from "../data/publication/workinprogress.json";
+export default function Publications() {
   return (
-    <div>
-      <Head>
-        <title>Publications - Bhavesh Gupta | Prime Minister Research Fellow | IIT Madras</title>
-        <meta name="description" content="Center for Quantum Information, Communication and Computing | Department of Physics | Prime Minister Research Fellow" />
-        <meta name="keywords" content="Quantum" />
-        <meta name="keywords" content="PMRF" />
-        <meta name="keywords" content="IIT Madras" />
-        <meta name="keywords" content="CQuICC" />
-        <meta httpEquiv="Content-Type" content="text/html;charset=UTF-8" />
-        <link rel="shortcut icon" href="/favicon/favicon.ico" />
-      </Head>
-      <Navbar />
-      <main>
-        <div className="flex flex-col px-6 md:w-4/5 pt-12 m-auto">
-          <h1 className="font-extrabold text-xl md:text-4xl text-black">
-            Publications
-          </h1>
-          <div className="info md:mt-20 mt-10 md:w-1/2">
-            <div className="font-bold text-lg text-black md:text-2xl">
-              Publications
-            </div>
-            <div className="my-5 text-black">To be updated soon.</div>
-          </div>
-        </div>
-      </main>
-      <section className="">
-        <div className="px-6 md:w-4/5 m-auto">
-          <div className="info py-5 md:py-10">
-            <div className="mt-5">
-              <div className="font-bold text-lg md:text-2xl text-black">
-                Work in progress
-              </div>
-              <ul className="list-decimal space-y-4 my-12 text-black md:mx-3">
-                {data.map((e, index) => {
-                  let desc = e.description;
-                  let isImage = e.image.length != 0 ? true : false;
-                  return (
-                    <li key={index} id={e.title}>
-                      <div className="text-xl font-bold my-4 mt-12">
-                        {e.title}
-                      </div>
-                      <div
-                        className="my-6 font-mono text-lg"
-                        dangerouslySetInnerHTML={{ __html: desc }}
-                      />
-                      {isImage && (
-                        <ImageLoader
-                        buttonReq={true}
-                          mainImageSrc={e.image}
-                          altImageSrc={"/img/loading.jpg"}
-                          altText={"image"}
-                          classValue={
-                            "object-cover object-center w-full h-full"
-                          }
-                        />
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
-              <section>
-                <div className="font-bold text-lg md:text-2xl mt-16 text-black">
-                  Colloquiums and Seminars
-                </div>
-                <div className="my-5 text-black">To be updated soon.</div>
-              </section>
-            </div>
-          </div>
-        </div>
+    <Layout title="Publications">
+      <PageHeading title="Publications">
+        <p>Published research and work in progress.</p>
+      </PageHeading>
+      <section className="content-section">
+        <h2>Published Article</h2>
+        {papers.map((p) => (
+          <Publication key={p.doi} paper={p} />
+        ))}
       </section>
-      <div className="gradient-bg-footer mt-20">
-        <Footer />
-      </div>
-    </div>
+      <section className="content-section" id="work-in-progress">
+        <div className="section-heading">
+          <h2>Work in progress</h2>
+          <span className="subtle">Ongoing research</span>
+        </div>
+        <ol className="work-list">
+          {work.map((w, i) => (
+            <li key={w.title} id={"project-" + (i + 1)}>
+              <div>
+                <h3>{w.title}</h3>
+                {w.description && (
+                  <div
+                    className="work-description"
+                    dangerouslySetInnerHTML={{
+                      __html: w.description,
+                    }}
+                  />
+                )}
+                {w.image && (
+                  <ImageLoader
+                    mainImageSrc={w.image}
+                    altImageSrc="/img/loading.jpg"
+                    altText={w.title}
+                    classValue="research-image"
+                    buttonReq
+                  />
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <section className="content-section">
+        <h2>Colloquiums and Seminars</h2>
+        <p className="subtle">To be updated soon.</p>
+      </section>
+    </Layout>
   );
-};
-
-export async function getStaticProps() {
-  let workProgessData = fs.readFileSync(
-    "data/publication/workinprogress.json",
-    "utf-8"
-  );
-  workProgessData = JSON.parse(workProgessData);
-  return {
-    props: { workProgessData },
-  };
 }
-
-export default Publications;
